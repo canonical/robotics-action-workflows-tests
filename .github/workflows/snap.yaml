@@ -14,7 +14,7 @@ jobs:
   build:
     uses: canonical/robotics-actions-workflows/.github/workflows/build.yaml@fix/refactor_guillaume
     with:
-      runs-on: '[self-hosted, linux, ARM64, medium, noble]'
+      runs-on: "self-hosted, linux, ARM64, medium, noble"
 
   test:
     needs: [build]
