@@ -1,0 +1,37 @@
+name: snap-build-test-publish
+
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        default: 'ubuntu-latest'
+        description: The runner to use. Defaults to 'ubuntu-latest'.
+        required: false
+        type: string
+
+jobs:
+  build:
+    uses: canonical/robotics-actions-workflows/.github/workflows/build.yaml@fix/refactor_guillaume
+    with:
+      runs-on: ${{ inputs.runs-on }}
+
+  test:
+    needs: [build]
+    uses: canonical/robotics-actions-workflows/.github/workflows/test.yaml@fix/refactor_guillaume
+    with:
+      lxc-image: 'ubuntu:20.04'
+      runs-on: ${{ inputs.runs-on }}
+      snap-artifact: ${{ needs.build.outputs.snap-artifact-name }}
+      snap-test-script: |
+        #!/bin/sh
+        set -euxo pipefail
+        hello-world | grep "hello-world"
+
+  publish:
+    needs: [build, test]
+    uses: canonical/robotics-actions-workflows/.github/workflows/publish.yaml@fix/refactor_guillaume
+    with:
+      snap-artifact: ${{ needs.build.outputs.snap-artifact-name }}
+      snap-track: latest
+    secrets:
+      snapstore-login: ${{ secrets.snapstore-login }}
