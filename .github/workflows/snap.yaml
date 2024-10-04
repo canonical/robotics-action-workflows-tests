@@ -14,14 +14,14 @@ jobs:
   build:
     uses: canonical/robotics-actions-workflows/.github/workflows/build.yaml@fix/refactor_guillaume
     with:
-      runs-on: '[self-hosted, "linux", "ARM64", "medium", "noble"]'
+      runs-on: '["self-hosted", "linux", "ARM64", "medium", "noble"]'
 
   test:
     needs: [build]
     uses: canonical/robotics-actions-workflows/.github/workflows/test.yaml@fix/refactor_guillaume
     with:
       lxc-image: 'ubuntu:20.04'
-      runs-on: '[self-hosted, "linux", "ARM64", "medium", "noble"]'
+      runs-on: '["self-hosted", "linux", "ARM64", "medium", "noble"]'
       snap-artifact: ${{ needs.build.outputs.snap-artifact-name }}
       snap-test-script: |
         #!/bin/sh
