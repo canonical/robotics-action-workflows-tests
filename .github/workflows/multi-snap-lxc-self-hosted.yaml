@@ -13,7 +13,7 @@ jobs:
   snap:
     uses: canonical/robotics-actions-workflows/.github/workflows/snap.yaml@fix/refactor-matrix
     with:
-      runs-on: '["ubuntu-latest", ["ARM64", "self-hosted", "linux", "large", "noble"]]'
+      runs-on: '["ubuntu-latest", "[\"ARM64\", \"self-hosted\", \"linux\", \"large\", \"noble\"]"]'
       lxd-image: 'ubuntu:24.04'
       snapcraft-source-subdir: '[".", "bar", "foo"]'
       snap-test-script: |
