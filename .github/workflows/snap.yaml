@@ -2,6 +2,7 @@ name: snap-multi-arch
 
 on:
   workflow_call:
+  workflow_dispatch:
   push:
     branches:
       - main
