@@ -1,4 +1,4 @@
-name: snap
+name: snap-lxc
 
 on:
   push:
@@ -13,6 +13,7 @@ jobs:
   snap:
     uses: canonical/robotics-actions-workflows/.github/workflows/snap.yaml@fix/refactor-matrix
     with:
+      lxd-image: 'ubuntu:24.04'
       snap-test-script: |
         #!/bin/sh
         set -euxo pipefail
