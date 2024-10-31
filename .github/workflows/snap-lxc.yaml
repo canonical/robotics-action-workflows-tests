@@ -1,7 +1,6 @@
-name: snap
+name: snap-lxc
 
 on:
-  workflow_call:
   push:
     branches:
       - main
@@ -14,6 +13,7 @@ jobs:
   snap:
     uses: canonical/robotics-actions-workflows/.github/workflows/snap.yaml@main
     with:
+      lxd-image: 'ubuntu:24.04'
       snap-test-script: |
         #!/bin/sh
         set -euxo pipefail
