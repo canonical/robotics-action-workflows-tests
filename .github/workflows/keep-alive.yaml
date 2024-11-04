@@ -1,0 +1,18 @@
+name: Keep alive
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *' # monthly
+
+jobs:
+  snap:
+    uses: canonical/robotics-actions-workflows/.github/workflows/keepalive.yaml@main
+    with:
+      workflow_files: "./snap.yaml, ./snap-lxc.yaml, ./multi-snap.yaml, ./multi-snap-lxc.yaml, ./multi-snap-lxc-self-hosted.yaml"
