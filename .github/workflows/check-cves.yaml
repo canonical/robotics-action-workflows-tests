@@ -15,13 +15,13 @@ jobs:
   cves-check:
     uses: canonical/robotics-actions-workflows/.github/workflows/cves-check.yaml@feature/cve-check
     with:
-      snap-name: turtlebot3c
+      snap: turtlebot3c
       channel: latest/stable
       runs-on: '["ubuntu-latest", ["self-hosted", "linux", "ARM64", "medium", "noble"]]'
   rebuild:
     needs: cves-check
     runs-on: ubuntu-latest
-    if: ${{ startsWith(needs.cves-check.outputs.cves-found, 'true') }}
+    if: ${{ startsWith(needs.cves-check.outputs.has-cves, 'true') }}
     steps:
       - run: |
           echo "We need to rebuild the snap"
