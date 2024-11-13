@@ -1,0 +1,29 @@
+name: check cves
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 1 * *' # monthly
+  workflow_dispatch:
+
+jobs:
+  cves-check:
+    uses: canonical/robotics-actions-workflows/.github/workflows/cves-check.yaml@feature/cve-check
+    with:
+      snap: turtlebot3c
+      channel: latest/stable
+      runs-on: '["ubuntu-latest", ["self-hosted", "linux", "ARM64", "medium", "noble"]]'
+  rebuild:
+    needs: cves-check
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(needs.cves-check.outputs.has-cves, 'true') }}
+    steps:
+      - run: |
+          echo "We need to rebuild the snap"
+          echo "The following CVEs are detected:"
+          echo '${{needs.cves-check.outputs.cves-dict}}' | jq .
